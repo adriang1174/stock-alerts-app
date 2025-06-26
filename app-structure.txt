@@ -1,0 +1,19 @@
+stock-alerts-app/
+├── src/
+│   ├── app/                    # Next.js 14 App Router
+│   │   ├── api/               # API Routes
+│   │   │   ├── alerts/        # CRUD operations for alerts
+│   │   │   ├── prices/        # Stock price fetching
+│   │   │   └── notifications/ # Push notifications
+│   │   ├── dashboard/         # Dashboard page
+│   │   ├── alerts/           # Alerts management
+│   │   └── triggered/        # Triggered alerts view
+│   ├── components/           # React components
+│   ├── lib/                 # Utilities and configurations
+│   │   ├── db.ts           # Database connection
+│   │   ├── firebase.ts     # Firebase config
+│   │   └── yahoo-finance.ts # Stock data fetching
+│   └── types/              # TypeScript definitions
+├── prisma/                 # Database schema
+├── public/                # Static assets
+└── package.json

@@ -1,0 +1,9 @@
+Arquitectura Propuesta
+Stack Tecnológico
+Frontend: Next.js 14 (React + TypeScript)
+Backend: Next.js API Routes + Node.js
+Base de Datos: PostgreSQL (Supabase para producción gratuita)
+Notificaciones Push: Firebase Cloud Messaging (FCM)
+Datos de Mercado: Yahoo Finance API (yfinance o API gratuita)
+Deployment: Vercel (frontend + API routes)
+Scheduling: Vercel Cron Jobs o servicios externos gratuitos

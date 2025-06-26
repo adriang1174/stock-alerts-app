@@ -1,0 +1,74 @@
+// Database schema for stock alerts application
+// Supports PostgreSQL for production (Supabase) and SQLite for development
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql" // Change to "sqlite" for local development
+  url      = env("DATABASE_URL")
+}
+
+// Stock alert configuration model
+model Alert {
+  id          String   @id @default(cuid())
+  symbol      String   // Stock symbol (e.g., "AAPL", "GOOGL")
+  targetPrice Float    // Price threshold to trigger alert
+  condition   AlertCondition // "above" or "below"
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relationship with triggered alerts
+  triggeredAlerts TriggeredAlert[]
+  
+  @@map("alerts")
+}
+
+// Triggered alerts history model
+model TriggeredAlert {
+  id           String   @id @default(cuid())
+  alertId      String
+  symbol       String
+  targetPrice  Float
+  actualPrice  Float    // Price when alert was triggered
+  condition    AlertCondition
+  triggeredAt  DateTime @default(now())
+  isRead       Boolean  @default(false)
+  
+  // Relationship with original alert
+  alert        Alert    @relation(fields: [alertId], references: [id], onDelete: Cascade)
+  
+  @@map("triggered_alerts")
+}
+
+// Device tokens for push notifications
+model DeviceToken {
+  id        String   @id @default(cuid())
+  token     String   @unique // FCM device token
+  userId    String?  // Optional user identification
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  isActive  Boolean  @default(true)
+  
+  @@map("device_tokens")
+}
+
+// Stock price cache to avoid excessive API calls
+model StockPrice {
+  id        String   @id @default(cuid())
+  symbol    String   @unique
+  price     Float
+  updatedAt DateTime @updatedAt
+  
+  @@map("stock_prices")
+}
+
+// Enum for alert conditions
+enum AlertCondition {
+  ABOVE
+  BELOW
+  
+  @@map("alert_condition")
+}
