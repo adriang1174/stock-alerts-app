@@ -19,7 +19,7 @@ const firebaseConfig = {
 const vapidKey = process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY;
 
 // Initialize Firebase app (singleton pattern)
-let firebaseApp: FirebaseApp;
+let firebaseApp: FirebaseApp | undefined;
 
 if (typeof window !== 'undefined') {
   // Client-side initialization
@@ -218,7 +218,7 @@ export const sendBulkPushNotifications = async (
     const response = await messaging.sendToDevice(tokens, message);
     
     let successCount = 0;
-    response.results.forEach((result, index) => {
+    response.results.forEach((result: any, index: number) => {
       if (result.error) {
         console.error(`Failed to send notification to token ${index}:`, result.error);
       } else {
@@ -402,3 +402,4 @@ export const initializePushNotifications = async (
 };
 
 /**
+ */
